@@ -1,13 +1,15 @@
-name: Order Service Contract Tests
+name: Customer Service Contract Tests
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  repository_dispatch:
+    types: [pact-changed]
 
 jobs:
-  consumer-tests:
+  provider-tests:
     runs-on: ubuntu-latest
     
     steps:
@@ -26,14 +28,8 @@ jobs:
     - name: Run unit tests
       run: npm test
         
-    - name: Run Pact consumer tests
-      run: npm run test:pact
-      env:
-        PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
-        PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
-        
-    - name: Publish Pacts to PactFlow
-      run: npm run pact:publish
+    - name: Run Pact provider verification tests
+      run: npm run test:provider
       env:
         PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
@@ -42,7 +38,7 @@ jobs:
     - name: Can I Deploy? (Check if safe to deploy)
       run: |
         npx pact-broker can-i-deploy \
-          --pacticipant OrderService \
+          --pacticipant CustomerService \
           --version ${{ github.sha }} \
           --broker-base-url ${{ secrets.PACT_BROKER_BASE_URL }} \
           --broker-token ${{ secrets.PACT_BROKER_TOKEN }}
