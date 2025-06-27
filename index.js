@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 const customerApp = express();
 customerApp.use(express.json());
@@ -14,8 +14,11 @@ customerApp.get("/customers", (req, res) => {
 
 customerApp.get("/customers/:id", (req, res) => {
   const customer = customers.find((c) => c.id == req.params.id);
-  if (customer) res.json(customer);
-  else res.status(404).send({ error: "Customer not found" });
+  if (customer) {
+    res.json(customer);
+  } else {
+    res.status(404).send({ error: "Customer not found" });
+  }
 });
 
 customerApp.post("/customers", (req, res) => {
@@ -24,6 +27,10 @@ customerApp.post("/customers", (req, res) => {
   res.status(201).json(newCustomer);
 });
 
-customerApp.listen(8081, () =>
-  console.log("Customer Service running on port 8081")
-);
+if (require.main === module) {
+  customerApp.listen(8081, () =>
+    console.log("Customer Service running on port 8081")
+  );
+}
+
+module.exports = customerApp;
