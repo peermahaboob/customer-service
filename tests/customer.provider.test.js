@@ -1,5 +1,6 @@
 const { Verifier } = require("@pact-foundation/pact");
 const customerApp = require("../index");
+require('dotenv').config();
 
 describe("Customer Service Provider Tests", () => {
   let server;
