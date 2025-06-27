@@ -27,6 +27,10 @@ jobs:
         
     - name: Run unit tests
       run: npm test
+      env:
+        PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
+        PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+        GIT_COMMIT: ${{ github.sha }}
         
     - name: Run Pact provider verification tests
       run: npm run test:provider
