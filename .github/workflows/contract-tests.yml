@@ -41,7 +41,7 @@ jobs:
         
     - name: Can I Deploy? (Check if safe to deploy)
       run: |
-        npx @pact-foundation/pact-cli can-i-deploy \
+        npx @pact-foundation/pact-cli pact-broker can-i-deploy \
           --pacticipant CustomerService \
           --version ${{ github.sha }} \
           --broker-base-url ${{ secrets.PACT_BROKER_BASE_URL }} \
