@@ -20,11 +20,12 @@ describe("Customer Service Provider Tests", () => {
       provider: "CustomerService",
       providerBaseUrl: "http://localhost:8081",
       pactBrokerUrl: process.env.PACT_BROKER_BASE_URL,
+      pactBrokerToken: process.env.PACT_BROKER_TOKEN,
       publishVerificationResult: true,
       providerVersion: process.env.GIT_COMMIT || "1.0.0",
-      consumerVersionSelectors: [{ tag: "dev", latest: true }],
-      customProviderHeaders: [
-        `Authorization: Bearer ${process.env.PACT_BROKER_TOKEN}`,
+      consumerVersionSelectors: [
+        { mainBranch: true }, // Get pacts from main branch
+        { latest: true }, // Get latest pacts regardless of tag
       ],
       stateHandlers: {
         "customer with id 1 exists": () => Promise.resolve(),
